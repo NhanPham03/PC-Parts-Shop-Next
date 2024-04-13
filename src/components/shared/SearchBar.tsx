@@ -28,7 +28,7 @@ export default function SearchBar({
   }, 500);
 
   return (
-    <div className="relative flex flex-1 flex-shrink-0">
+    <div className="relative flex flex-1">
       <Input className="peer block w-full rounded-md py-[9px] pl-10 text-sm outline-2"
         type="text" 
         placeholder={placeholder} 

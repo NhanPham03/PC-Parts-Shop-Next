@@ -1,12 +1,14 @@
-import Footer from "@/components/shared/Footer";
-import Header from "@/components/shared/Header";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "PC Parts Shop",
+  description: "Best online PC hardware retailer!",
+}
 
 export default function Home() {
   return (
     <main>
-      <Header />
       
-      <Footer />
     </main>
   );
 }

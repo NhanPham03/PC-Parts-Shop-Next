@@ -70,6 +70,15 @@
   * {
     @apply border-border;
   }
+
+  h1 {
+    @apply text-4xl font-bold my-3;
+  }
+
+  h2 {
+    @apply text-2xl font-medium;
+  }
+
   body {
     @apply bg-background text-foreground;
   }
