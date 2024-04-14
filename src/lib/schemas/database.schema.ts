@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const minError = "This field must not be empty";
+
 export const accountSchema = z.object({
   username: z
     .string()
@@ -12,16 +14,16 @@ export const accountSchema = z.object({
 export const userSchema = z.object({
   first_name: z
     .string()
-    .min(1, "First name is required")
+    .min(1, minError)
     .max(50, "Maximum 50 characters"),
   last_name: z
     .string()
-    .min(1, "Last name is required")
+    .min(1, minError)
     .max(50, "Maximum 50 characters"),
   email: z
     .string()
     .email("Invalid email format")
-    .min(1, "Email is required")
+    .min(1, minError)
     .max(50, "Maximum 50 characters"),
   address: z
     .string()
@@ -46,7 +48,7 @@ export const itemSchema = z.object({
 export const productSchema = z.object({
   name: z
     .string()
-    .min(1, "Name is required")
+    .min(1, minError)
     .max(255, "Maximum 255 characters"),
   description: z
     .string()

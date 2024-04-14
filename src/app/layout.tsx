@@ -4,6 +4,7 @@ import ThemeProvider from "@/components/global/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
+import ReduxProvider from "@/components/global/redux-provider";
 
 export const metadata: Metadata = {
   title: "PC Parts Shop",
@@ -20,7 +21,9 @@ export default function RootLayout({
       <body className="flex-col w-4/5 mx-auto my-5">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-          {children}
+          <ReduxProvider>
+            {children}
+          </ReduxProvider>
           <Footer />
           <Toaster />
         </ThemeProvider>

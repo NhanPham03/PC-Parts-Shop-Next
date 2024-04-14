@@ -9,8 +9,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { PulseLoader } from "react-spinners";
+import { toast } from "../ui/use-toast";
+import login from "@/lib/actions/login.actions";
+import { useAppDispatch } from "@/lib/redux/redux.config";
+import { setAuthTokens } from "@/lib/redux/authSlice";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<LoginSchema>({
@@ -21,17 +28,24 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = async (data: LoginSchema) => {
+  async function onSubmit(data: LoginSchema) {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 700));
-    } catch (error) {
+      const formData = loginSchema.parse(data);
 
+      const tokens = await login(formData);
+      if (tokens) {
+        dispatch(setAuthTokens(tokens));
+        toast({ description: "Login success!" });
+        router.push("/account");
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Oops! Something went wrong!", description: "An error occurred while logging in." });
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col items-center">

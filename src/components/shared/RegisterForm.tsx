@@ -10,9 +10,12 @@ import { useDebouncedCallback } from "use-debounce";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { PulseLoader } from "react-spinners";
+import { toast } from "../ui/use-toast";
+import register from "@/lib/actions/register.action";
+import { useRouter } from "next/navigation";
 
 export function RegisterForm() {
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const router = useRouter();
   const [showConfirmField, setShowConfirmField] = useState<boolean>(false);
   const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,50 +25,72 @@ export function RegisterForm() {
     defaultValues: {
       username: "",
       password: "",
+      confirm_password: "",
       user: {
         first_name: "",
         last_name: "",
         email: "",
-        address: null,
-        city: null,
-        country: null,
+        address: "",
+        city: "",
+        country: "",
         birthdate: null,
       },
     },
   });
 
-  const handlePasswordChange = useDebouncedCallback(() => {
-    setShowConfirmField(true);
-  }, 300);
-
   const handleUsernameChange = useDebouncedCallback(() => {
-    setShowAdditionalFields(true);
+    setShowAdditionalFields(form.getValues("username") !== "");
   }, 400);
 
-  const onSubmit = async (data: RegisterSchema) => {
+  const handlePasswordChange = useDebouncedCallback(() => {
+    setShowConfirmField(form.getValues("password") !== "");
+  }, 300);
+
+  const handleConfirmPasswordChange = useDebouncedCallback(() => {
+    const password = form.getValues("password");
+    const confirm = form.getValues("confirm_password");
+
+    if (password !== confirm) {
+      form.setError("confirm_password", {
+        type: "manual",
+        message: "Passwords do not match",
+      });
+    } else {
+      form.clearErrors("confirm_password");
+    }
+  }, 300);
+
+  async function onSubmit(data: RegisterSchema) {
     setIsLoading(true);
 
     try {
-      
-    } catch (error) {
+      const formData = registerSchema.parse(data);
 
+      const statusCode = await register(formData);
+      if (statusCode === 1) {
+        toast({ description: "Register success!" });
+        router.push("/account/login");
+      }
+    } catch (error) {
+      toast({ variant: "destructive", title: "Oops! Something went wrong!", description: "An error occurred while registering." });
     } finally {
       setIsLoading(false);
-      form.reset();
+      form.setValue("password", "");
+      form.setValue("confirm_password", "");
     }
-  };
+  }
 
   return (
     <div className="flex flex-col items-center">
       <Form {...form}>
-        <form className="flex flex-col w-[20rem] gap-3"
+        <form className="flex flex-col w-[20rem] gap-3 items-center"
           onSubmit={form.handleSubmit(onSubmit)}
           method="POST"
         >
           <h1 className="text-center">Register</h1>
 
           <FormField control={form.control} name="username" render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full" onChange={() => handleUsernameChange()}>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input type="text" required {...field} />
@@ -74,7 +99,7 @@ export function RegisterForm() {
             </FormItem>
           )} />
           <FormField control={form.control} name="password" render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full" onChange={() => handlePasswordChange()}>
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" required {...field} />
@@ -84,8 +109,8 @@ export function RegisterForm() {
           )} />
 
           {showConfirmField && (
-            <FormField control={form.control} name="password" render={({ field }) => (
-              <FormItem>
+            <FormField control={form.control} name="confirm_password" render={({ field }) => (
+              <FormItem className="w-full" onChange={() => handleConfirmPasswordChange()}>
                 <FormLabel>Confirm password</FormLabel>
                 <FormControl>
                   <Input type="password" required {...field} />
@@ -93,6 +118,84 @@ export function RegisterForm() {
                 <FormMessage />
               </FormItem>
             )} />
+          )}
+
+          {showAdditionalFields && (
+            <div className="flex flex-col my-3 w-[28rem] gap-2">
+              <h2 className="text-center">User information</h2>
+
+              <div className="flex flex-row gap-2">
+                <FormField control={form.control} name="user.first_name" render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>First name</FormLabel>
+                    <FormControl>
+                      <Input type="text" required {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="user.last_name" render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Last name</FormLabel>
+                    <FormControl>
+                      <Input type="text" required {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+              </div>
+              
+              <div className="flex flex-row gap-2">
+                <FormField control={form.control} name="user.email" render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" required {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="user.birthdate" render={({ field }) => (
+                  <FormItem className="w-fit">
+                    <FormLabel>Date of Birth</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} value={field.value ? field.value.toISOString().split('T')[0] : ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+              </div>
+
+              <div className="flex flex-row gap-2">
+                <FormField control={form.control} name="user.address" render={({ field }) => (
+                  <FormItem className="w-fit">
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} value={field.value ?? ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="user.city" render={({ field }) => (
+                  <FormItem className="w-fit">
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} value={field.value ?? ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="user.country" render={({ field }) => (
+                  <FormItem className="w-fit">
+                    <FormLabel>Country</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} value={field.value ?? ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+              </div>
+            </div>
           )}
 
           <Button className="w-fit self-center" 
@@ -108,42 +211,6 @@ export function RegisterForm() {
         </form>
       </Form>
       
-        {showConfirmField && 
-          <Input type="password" 
-            value={confirmPassword} 
-            onChange={(e) => setConfirmPassword(e.target.value)} 
-            placeholder="Confirm password" 
-          />
-        }
-      
-      {showAdditionalFields && (
-        <div className="flex flex-col text-center my-3 w-[28rem] gap-2">
-          <h2>User information</h2>
-          <div className="flex flex-row gap-2">
-            <Input type="text" 
-              placeholder="First name" 
-              required
-            />
-            <Input type="text" 
-              placeholder="Last name" 
-              required
-            />
-          </div>
-          <div className="flex flex-row gap-2">
-            <Input type="email" 
-              placeholder="Email" 
-              required
-            />
-            <Input className="justify-end max-w-fit" type="date" />
-          </div>
-          <div className="flex flex-row gap-2">
-            <Input type="text" placeholder="Address" />
-            <Input type="text" placeholder="City" />
-            <Input type="text" placeholder="Country" />
-          </div>
-        </div>
-      )}
-
       <div className="flex flex-row my-2 gap-1">
         <p>Already have an account?</p>
         <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
