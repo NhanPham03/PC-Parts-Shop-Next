@@ -25,6 +25,8 @@ You can access the website on:
 - [Known problems](#known-problems)
 
 ## Getting Started
+Make sure you have [Node.js](https://nodejs.org/en) installed.
+
 ### Install dependencies
 First, you will need to install the npm packages and dependencies:
 ```bash
