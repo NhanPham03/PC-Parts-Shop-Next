@@ -41,7 +41,8 @@ export function LoginForm() {
         router.push("/account");
       }
     } catch (error) {
-      toast({ variant: "destructive", title: "Oops! Something went wrong!", description: "An error occurred while logging in." });
+      toast({ variant: "destructive", title: "Oops! Something went wrong!", description: String(error) });
+      form.setValue("password", "");
     } finally {
       setIsLoading(false);
     }

@@ -2,8 +2,8 @@ import { RegisterSchema } from "../schemas/auth.schema";
 
 export default async function register(data: RegisterSchema) {
   try {
-    const res = await fetch(`${process.env.API_URL}`, {
-      method: "POST",
+    const res = await fetch(`${process.env.API_URL}/api/`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },

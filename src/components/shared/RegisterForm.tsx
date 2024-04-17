@@ -72,11 +72,11 @@ export function RegisterForm() {
         router.push("/account/login");
       }
     } catch (error) {
-      toast({ variant: "destructive", title: "Oops! Something went wrong!", description: "An error occurred while registering." });
-    } finally {
-      setIsLoading(false);
+      toast({ variant: "destructive", title: "Oops! Something went wrong!", description: String(error) });
       form.setValue("password", "");
       form.setValue("confirm_password", "");
+    } finally {
+      setIsLoading(false);
     }
   }
 
