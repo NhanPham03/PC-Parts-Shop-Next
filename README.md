@@ -3,7 +3,7 @@
 This is a React [NextJS](https://nextjs.org/) build of the already existing [pc-parts-shop-java](https://github.com/NhanPham03/pc-parts-shop-java) bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 The GitHub for this project's back-end used to handle requests and send responses can be found [here](https://github.com/NhanPham03/pc-parts-shop-django).
 
-You can access the website on:
+You can access the website on:  
 [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)]()
 
 ### Front-end
