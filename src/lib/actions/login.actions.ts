@@ -2,8 +2,8 @@ import { LoginSchema } from "../schemas/auth.schema";
 
 export default async function login(data: LoginSchema) {
   try {
-    const res = await fetch(`${process.env.API_URL}/api/`, {
-      method: "POST",
+    const res = await fetch(`${process.env.API_URL}/api/login/`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
