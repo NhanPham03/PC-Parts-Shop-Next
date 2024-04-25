@@ -15,7 +15,7 @@ import { useAppDispatch } from "@/lib/redux/redux.config";
 import { setAuthTokens } from "@/lib/redux/authSlice";
 import { useRouter } from "next/navigation";
 
-export function LoginForm() {
+export default function LoginForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -51,7 +51,7 @@ export function LoginForm() {
   return (
     <div className="flex flex-col items-center">
       <Form {...form}>
-        <form className="flex flex-col w-[20rem] gap-3"
+        <form className="flex flex-col w-[25rem] gap-3 border rounded-xl p-6"
           onSubmit={form.handleSubmit(onSubmit)}
           method="POST"
         >
@@ -86,17 +86,17 @@ export function LoginForm() {
               <p>Login</p>
             )}
           </Button>
+
+          <div className="flex flex-row gap-1 self-center">
+            <p>Don't have an account?</p>
+            <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
+              href={"/account/register"}
+            >
+              Register!
+            </Link>
+          </div>
         </form>
       </Form>
-
-      <div className="flex flex-row my-2 gap-1">
-        <p>Don't have an account?</p>
-        <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
-          href={"/account/register"}
-        >
-          Register!
-        </Link>
-      </div>
     </div>
   );
 }

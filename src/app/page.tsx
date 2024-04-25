@@ -1,3 +1,4 @@
+import FilterNav from "@/components/shared/FilterNav";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,8 +8,11 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
-      
+    <main className="flex flex-row">
+      <FilterNav />
+      <div className="flex-grow">
+
+      </div>
     </main>
   );
 }

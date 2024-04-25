@@ -14,7 +14,7 @@ import { toast } from "../ui/use-toast";
 import register from "@/lib/actions/register.action";
 import { useRouter } from "next/navigation";
 
-export function RegisterForm() {
+export default function RegisterForm() {
   const router = useRouter();
   const [showConfirmField, setShowConfirmField] = useState<boolean>(false);
   const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
@@ -67,7 +67,7 @@ export function RegisterForm() {
       const formData = registerSchema.parse(data);
 
       const statusCode = await register(formData);
-      if (statusCode === 1) {
+      if (statusCode === 201) {
         toast({ description: "Register success!" });
         router.push("/account/login");
       }
@@ -83,7 +83,7 @@ export function RegisterForm() {
   return (
     <div className="flex flex-col items-center">
       <Form {...form}>
-        <form className="flex flex-col w-[20rem] gap-3 items-center"
+        <form className="flex flex-col w-[25rem] gap-3 border rounded-xl p-6"
           onSubmit={form.handleSubmit(onSubmit)}
           method="POST"
         >
@@ -208,17 +208,17 @@ export function RegisterForm() {
               <p>Register</p>
             )}
           </Button>
+
+          <div className="flex flex-row gap-1 self-center">
+            <p>Already have an account?</p>
+            <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
+              href={"/account/login"}
+            >
+              Log in!
+            </Link>
+          </div>
         </form>
       </Form>
-      
-      <div className="flex flex-row my-2 gap-1">
-        <p>Already have an account?</p>
-        <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
-          href={"/account/login"}
-        >
-          Log in!
-        </Link>
-      </div>
     </div>
   );
 }
