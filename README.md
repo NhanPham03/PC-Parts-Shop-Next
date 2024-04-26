@@ -36,7 +36,7 @@ npm i
 
 ### Set up environment
 1. Create a `.env` file at the root of the project.
-2. Locate `.env.example` (.../pc-parts-shop-next).
+2. Locate and copy the variables from `.env.example` (.../pc-parts-shop-next).
 3. Provide a URL for the API where the application will send requests to.
 ```bash
 API_URL="http://127.0.0.1:8000/"
