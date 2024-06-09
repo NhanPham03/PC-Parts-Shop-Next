@@ -13,8 +13,6 @@ You can access the website on:
 
 ### Back-end
 [![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)](https://react-redux.js.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Django REST](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white)](https://www.django-rest-framework.org/)  
 
 The GitHub for this project's back-end used to handle requests and send responses can be found [here](https://github.com/NhanPham03/pc-parts-shop-django).
 
@@ -38,16 +36,11 @@ npm i
 
 ### Set up environment
 1. Create a `.env` file at the root of the project.
-2. Locate `.env.example` (.../pc-parts-shop-next).
-3. Change the values of these variables.
+2. Locate and copy the variables from `.env.example` (.../pc-parts-shop-next).
+3. Provide a URL for the API where the application will send requests to.
 ```bash
-DATABASE_URL="mysql://username:password@host:port/database"
-# If we use Django RESTful API, we do not need to provide a DATABASE_URL
-# Unless we are willing to generate a database with Prisma ORM
-# Then update the URL accordingly
-
-API_URL="RESTful API URL"
-#To be added
+API_URL="http://127.0.0.1:8000/"
+# This is the default host and port for Django REST framework.
 ```
 
 ### Start development server
