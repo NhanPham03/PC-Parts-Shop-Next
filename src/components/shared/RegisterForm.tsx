@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { PulseLoader } from "react-spinners";
 import { toast } from "../ui/use-toast";
-import register from "@/lib/actions/register.action";
+import { register } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {

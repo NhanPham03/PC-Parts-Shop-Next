@@ -10,14 +10,16 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { PulseLoader } from "react-spinners";
 import { toast } from "../ui/use-toast";
-import login from "@/lib/actions/login.actions";
-import { useAppDispatch } from "@/lib/redux/redux.config";
-import { setAuthTokens } from "@/lib/redux/authSlice";
+import { login } from "@/lib/actions/user.actions";
+import { AppDispatch } from "@/lib/redux/redux.config";
+import { setTokens } from "@/lib/redux/authSlice";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setAuthCookies } from "@/lib/cookies";
 
 export default function LoginForm() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<LoginSchema>({
@@ -34,9 +36,11 @@ export default function LoginForm() {
     try {
       const formData = loginSchema.parse(data);
 
-      const tokens = await login(formData);
-      if (tokens) {
-        dispatch(setAuthTokens(tokens));
+      const { accessToken, refreshToken } = await login(formData);
+      if (accessToken && refreshToken) {
+        dispatch(setTokens({ accessToken, refreshToken }));
+        setAuthCookies(accessToken, refreshToken);
+
         toast({ description: "Login success!" });
         router.push("/account");
       }
