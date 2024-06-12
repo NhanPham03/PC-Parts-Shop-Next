@@ -81,28 +81,28 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <Form {...form}>
-        <form className="flex flex-col w-[25rem] gap-3 border rounded-xl p-6"
-          onSubmit={form.handleSubmit(onSubmit)}
-          method="POST"
-        >
-          <h1 className="text-center">Register</h1>
+    <Form {...form}>
+      <form className="flex flex-col items-center"
+        onSubmit={form.handleSubmit(onSubmit)} 
+        method="POST"
+      >
+        <div className="flex flex-col w-fit border rounded-xl p-6 gap-3 self-center">
+          <h1 className="text-center">REGISTER</h1>
 
           <FormField control={form.control} name="username" render={({ field }) => (
-            <FormItem className="w-full" onChange={() => handleUsernameChange()}>
+            <FormItem onChange={() => handleUsernameChange()}>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input type="text" required {...field} />
+                <Input className="w-[25em]" type="text" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )} />
           <FormField control={form.control} name="password" render={({ field }) => (
-            <FormItem className="w-full" onChange={() => handlePasswordChange()}>
+            <FormItem onChange={() => handlePasswordChange()}>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" required {...field} />
+                <Input className="w-[25em]" type="password" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -120,105 +120,131 @@ export default function RegisterForm() {
             )} />
           )}
 
-          {showAdditionalFields && (
-            <div className="flex flex-col my-3 w-[28rem] gap-2">
-              <h2 className="text-center">User information</h2>
+          {!showAdditionalFields && (
+            <>
+              <Button className="w-fit self-center dark:bg-green-700 dark:hover:bg-green-600 bg-green-400 hover:bg-green-500" 
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <PulseLoader color="#22c55e" size={15} speedMultiplier={0.8} />
+                ) : (
+                  <p>Register</p>
+                )}
+              </Button>
 
-              <div className="flex flex-row gap-2">
-                <FormField control={form.control} name="user.first_name" render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>First name</FormLabel>
-                    <FormControl>
-                      <Input type="text" required {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-                <FormField control={form.control} name="user.last_name" render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Last name</FormLabel>
-                    <FormControl>
-                      <Input type="text" required {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+              <div className="flex flex-row gap-1 self-center">
+                <p>Already have an account?</p>
+                <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
+                  href={"/account/login"}
+                >
+                  Log in!
+                </Link>
               </div>
-              
-              <div className="flex flex-row gap-2">
-                <FormField control={form.control} name="user.email" render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" required {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-                <FormField control={form.control} name="user.birthdate" render={({ field }) => (
-                  <FormItem className="w-fit">
-                    <FormLabel>Date of Birth</FormLabel>
-                    <FormControl>
-                      <Input type="date" {...field} value={field.value ? field.value.toISOString().split('T')[0] : ''} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-              </div>
+            </>
+          )}
+        </div>
 
-              <div className="flex flex-row gap-2">
-                <FormField control={form.control} name="user.address" render={({ field }) => (
-                  <FormItem className="w-fit">
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} value={field.value ?? ''} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-                <FormField control={form.control} name="user.city" render={({ field }) => (
-                  <FormItem className="w-fit">
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} value={field.value ?? ''} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-                <FormField control={form.control} name="user.country" render={({ field }) => (
-                  <FormItem className="w-fit">
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input type="text" {...field} value={field.value ?? ''} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+        {showAdditionalFields && (
+          <div className="flex flex-col my-3 w-[28rem] gap-3 self-center border rounded-xl p-6">
+            <h2 className="text-center">INFORMATION</h2>
+
+            <div className="flex flex-row gap-2">
+              <FormField control={form.control} name="user.first_name" render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>First name</FormLabel>
+                  <FormControl>
+                    <Input type="text" required {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="user.last_name" render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Last name</FormLabel>
+                  <FormControl>
+                    <Input type="text" required {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+            </div>
+            
+            <div className="flex flex-row gap-2">
+              <FormField control={form.control} name="user.email" render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" required {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="user.birthdate" render={({ field }) => (
+                <FormItem className="w-fit">
+                  <FormLabel>Date of Birth</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} value={field.value ? field.value.toISOString().split('T')[0] : ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+            </div>
+
+            <div className="flex flex-row gap-2">
+              <FormField control={form.control} name="user.address" render={({ field }) => (
+                <FormItem className="w-fit">
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} value={field.value ?? ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="user.city" render={({ field }) => (
+                <FormItem className="w-fit">
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} value={field.value ?? ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="user.country" render={({ field }) => (
+                <FormItem className="w-fit">
+                  <FormLabel>Country</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} value={field.value ?? ''} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+            </div>
+
+            <div className="flex flex-col w-full items-center gap-3">
+              <Button className="w-fit self-center dark:bg-green-700 dark:hover:bg-green-600 bg-green-400 hover:bg-green-500" 
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <PulseLoader color="#22c55e" size={15} speedMultiplier={0.8} />
+                ) : (
+                  <p>Register</p>
+                )}
+              </Button>
+
+              <div className="flex flex-row gap-1 self-center">
+                <p>Already have an account?</p>
+                <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
+                  href={"/account/login"}
+                >
+                  Log in!
+                </Link>
               </div>
             </div>
-          )}
-
-          <Button className="w-fit self-center" 
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <PulseLoader color="#22c55e" size={15} speedMultiplier={0.8} />
-            ) : (
-              <p>Register</p>
-            )}
-          </Button>
-
-          <div className="flex flex-row gap-1 self-center">
-            <p>Already have an account?</p>
-            <Link className="text-blue-500 underline dark:hover:text-white hover:text-black"
-              href={"/account/login"}
-            >
-              Log in!
-            </Link>
           </div>
-        </form>
-      </Form>
-    </div>
+        )}
+      </form>
+    </Form>
   );
 }

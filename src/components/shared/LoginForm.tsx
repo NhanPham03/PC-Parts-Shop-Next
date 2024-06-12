@@ -55,17 +55,17 @@ export default function LoginForm() {
   return (
     <div className="flex flex-col items-center">
       <Form {...form}>
-        <form className="flex flex-col w-[25rem] gap-3 border rounded-xl p-6"
+        <form className="flex flex-col w-fit gap-3 border rounded-xl p-6"
           onSubmit={form.handleSubmit(onSubmit)}
           method="POST"
         >
-          <h1 className="text-center">Login</h1>
+          <h1 className="text-center">LOGIN</h1>
 
           <FormField control={form.control} name="username" render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input type="text" required {...field} />
+                <Input className="w-[25em]" type="text" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,13 +74,13 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" required {...field} />
+                <Input className="w-[25em]" type="password" required {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )} />
 
-          <Button className="w-fit self-center"
+          <Button className="w-fit self-center dark:bg-green-700 dark:hover:bg-green-600 bg-green-400 hover:bg-green-500"
             type="submit" 
             disabled={isLoading}
           >

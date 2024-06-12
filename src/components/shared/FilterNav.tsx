@@ -17,7 +17,7 @@ export default function FilterNav() {
         return (
           <Link className="w-full h-[2rem] pl-3 mr-10 place-content-center rounded-md ease-in hover:text-green-600 hover:bg-slate-100 dark:hover:bg-slate-800 duration-100"
             key={filter.name} 
-            href={`/catalog?type=${filter.type}`}
+            href={`/catalog?q=${filter.type}`}
           >
             {filter.name}
           </Link>
