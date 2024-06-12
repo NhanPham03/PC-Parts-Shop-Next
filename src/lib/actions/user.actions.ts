@@ -33,7 +33,7 @@ export async function register(data: RegisterSchema) {
       },
       body: JSON.stringify(data),
     });
-
+    
     if (!res.ok) {
       throw new Error("Register failed. Please try again later.")
     };
