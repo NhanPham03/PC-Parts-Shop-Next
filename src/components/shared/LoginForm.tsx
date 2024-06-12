@@ -15,7 +15,7 @@ import { AppDispatch } from "@/lib/redux/redux.config";
 import { setTokens } from "@/lib/redux/authSlice";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setAuthCookies } from "@/lib/cookies";
+import { setAuthCookies } from "@/lib/utils/cookies.utils";
 
 export default function LoginForm() {
   const router = useRouter();

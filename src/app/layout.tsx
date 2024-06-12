@@ -5,10 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import ReduxProvider from "@/components/global/redux-provider";
-import { getAuthCookies, setAuthCookies } from "@/lib/cookies";
-import { AppDispatch } from "@/lib/redux/redux.config";
-import { useDispatch } from "react-redux";
-import { setTokens } from "@/lib/redux/authSlice";
 import AuthLoader from "@/components/global/auth-loader";
 
 export const metadata: Metadata = {

@@ -1,3 +1,4 @@
+import UserForm from "@/components/shared/UserForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 export default function Account() {
   return (
     <main>
-      <h1>Account page</h1>
+      <UserForm />
     </main>
   );
 }
