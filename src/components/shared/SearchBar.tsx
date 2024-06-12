@@ -33,7 +33,6 @@ export default function SearchBar({
         type="text" 
         placeholder={placeholder} 
         onChange={(e) => {handleSearch(e.target.value)}} 
-        defaultValue={searchParams.get(paramName)?.toString()}
       />
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 peer-focus:text-gray-500" />
     </div>
