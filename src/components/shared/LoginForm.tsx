@@ -34,12 +34,10 @@ export default function LoginForm() {
     setIsLoading(true);
 
     try {
-      const formData = loginSchema.parse(data);
-
-      const { accessToken, refreshToken } = await login(formData);
-      if (accessToken && refreshToken) {
-        dispatch(setTokens({ accessToken, refreshToken }));
-        setAuthCookies(accessToken, refreshToken);
+      const tokens: { accessToken: string, refreshToken: string } = await login(data);
+      if (tokens.accessToken && tokens.refreshToken) {
+        dispatch(setTokens(tokens));
+        setAuthCookies(tokens.accessToken, tokens.refreshToken);
 
         toast({ description: "Login success!" });
         router.push("/account");

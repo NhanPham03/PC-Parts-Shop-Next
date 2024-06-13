@@ -1,13 +1,15 @@
-import { LoginSchema, UserSchema } from "../schemas/zod.schema";
+import { loginSchema, LoginSchema, registerSchema, userSchema, UserSchema } from "../schemas/zod.schema";
 
 export async function login(data: LoginSchema) {
   try {
+    const parsedData = loginSchema.parse(data);
+
     const res = await fetch(`${process.env.API_URL}/api/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(parsedData),
     });
 
     if (!res.ok) {
@@ -24,12 +26,17 @@ export async function login(data: LoginSchema) {
 
 export async function register(data: UserSchema) {
   try {
+    if (data.birthdate) {
+      data.birthdate = new Date(data.birthdate).toISOString().split('T')[0];
+    }
+    const parsedData = registerSchema.parse(data);
+
     const res = await fetch(`${process.env.API_URL}/api/users/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(parsedData),
     });
     
     if (!res.ok) {
@@ -72,12 +79,17 @@ export async function updateUser(id: number, data: UserSchema) {
       throw new Error("Invalid URL parameter.");
     }
 
+    if (data.birthdate) {
+      data.birthdate = new Date(data.birthdate).toISOString().split('T')[0];
+    }
+    const parsedData = userSchema.parse(data);
+
     const res = await fetch(`${process.env.API_URL}/api/users/${encodeURIComponent(id)}/`, {
       method: 'PUT',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(parsedData),
     });
 
     if (!res.ok) {

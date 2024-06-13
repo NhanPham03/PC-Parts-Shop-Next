@@ -47,9 +47,11 @@ export const userSchema = z.object({
     .max(50, "Maximum 50 characters")
     .nullable(),
   birthdate: z
-    .date()
+    .string()
     .nullable(),
 });
+
+export const registerSchema = userSchema.omit({ confirm_password: true });
 
 export const cartItemSchema = z.object({
   quantity: z

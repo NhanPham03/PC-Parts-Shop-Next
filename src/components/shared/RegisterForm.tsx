@@ -12,7 +12,7 @@ import { PulseLoader } from "react-spinners";
 import { toast } from "../ui/use-toast";
 import { register } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
-import { userSchema, UserSchema } from "@/lib/schemas/zod.schema";
+import { registerSchema, userSchema, UserSchema } from "@/lib/schemas/zod.schema";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -62,9 +62,7 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      const formData = userSchema.parse(data);
-      
-      const statusCode = await register(formData);
+      const statusCode = await register(data);
       if (statusCode === 201) {
         toast({ description: "Register success!" });
         router.push("/account/login");
@@ -184,8 +182,8 @@ export default function RegisterForm() {
                   <FormControl>
                     <Input {...field} 
                       type="date" 
-                      value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : field.value || ''} 
-                      onChange={(e) => field.onChange(new Date(e.target.value))}
+                      value={field.value ? new Date(field.value).toISOString().split('T')[0] : ''} 
+                      onChange={(e) => field.onChange(e.target.value)}
                     />
                   </FormControl>
                   <FormMessage />
