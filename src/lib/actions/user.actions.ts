@@ -1,6 +1,4 @@
-import { LoginSchema } from "../schemas/auth.schema";
-import { RegisterSchema } from "../schemas/auth.schema";
-import { UserSchema } from "../schemas/database.schema";
+import { LoginSchema, UserSchema } from "../schemas/zod.schema";
 
 export async function login(data: LoginSchema) {
   try {
@@ -24,7 +22,7 @@ export async function login(data: LoginSchema) {
   }
 }
 
-export async function register(data: RegisterSchema) {
+export async function register(data: UserSchema) {
   try {
     const res = await fetch(`${process.env.API_URL}/api/users/`, {
       method: "POST",

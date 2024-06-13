@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { loginSchema, LoginSchema } from "@/lib/schemas/auth.schema";
+import { loginSchema, LoginSchema } from "@/lib/schemas/zod.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";

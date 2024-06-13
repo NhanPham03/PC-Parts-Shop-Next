@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { registerSchema, RegisterSchema } from "@/lib/schemas/auth.schema";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,6 +12,7 @@ import { PulseLoader } from "react-spinners";
 import { toast } from "../ui/use-toast";
 import { register } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
+import { userSchema, UserSchema } from "@/lib/schemas/zod.schema";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -20,21 +20,19 @@ export default function RegisterForm() {
   const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const form = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<UserSchema>({
+    resolver: zodResolver(userSchema),
     defaultValues: {
       username: "",
       password: "",
       confirm_password: "",
-      user: {
-        first_name: "",
-        last_name: "",
-        email: "",
-        address: "",
-        city: "",
-        country: "",
-        birthdate: null,
-      },
+      first_name: "",
+      last_name: "",
+      email: "",
+      address: "",
+      city: "",
+      country: "",
+      birthdate: null,
     },
   });
 
@@ -60,11 +58,11 @@ export default function RegisterForm() {
     }
   }, 300);
 
-  async function onSubmit(data: RegisterSchema) {
+  async function onSubmit(data: UserSchema) {
     setIsLoading(true);
 
     try {
-      const formData = registerSchema.parse(data);
+      const formData = userSchema.parse(data);
       
       const statusCode = await register(formData);
       if (statusCode === 201) {
@@ -150,7 +148,7 @@ export default function RegisterForm() {
             <h2 className="text-center">INFORMATION</h2>
 
             <div className="flex flex-row gap-2">
-              <FormField control={form.control} name="user.first_name" render={({ field }) => (
+              <FormField control={form.control} name="first_name" render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>First name</FormLabel>
                   <FormControl>
@@ -159,7 +157,7 @@ export default function RegisterForm() {
                   <FormMessage />
                 </FormItem>
               )} />
-              <FormField control={form.control} name="user.last_name" render={({ field }) => (
+              <FormField control={form.control} name="last_name" render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Last name</FormLabel>
                   <FormControl>
@@ -171,7 +169,7 @@ export default function RegisterForm() {
             </div>
             
             <div className="flex flex-row gap-2">
-              <FormField control={form.control} name="user.email" render={({ field }) => (
+              <FormField control={form.control} name="email" render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
@@ -180,7 +178,7 @@ export default function RegisterForm() {
                   <FormMessage />
                 </FormItem>
               )} />
-              <FormField control={form.control} name="user.birthdate" render={({ field }) => (
+              <FormField control={form.control} name="birthdate" render={({ field }) => (
                 <FormItem className="w-fit">
                   <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
@@ -196,7 +194,7 @@ export default function RegisterForm() {
             </div>
 
             <div className="flex flex-row gap-2">
-              <FormField control={form.control} name="user.address" render={({ field }) => (
+              <FormField control={form.control} name="address" render={({ field }) => (
                 <FormItem className="w-fit">
                   <FormLabel>Address</FormLabel>
                   <FormControl>
@@ -205,7 +203,7 @@ export default function RegisterForm() {
                   <FormMessage />
                 </FormItem>
               )} />
-              <FormField control={form.control} name="user.city" render={({ field }) => (
+              <FormField control={form.control} name="city" render={({ field }) => (
                 <FormItem className="w-fit">
                   <FormLabel>City</FormLabel>
                   <FormControl>
@@ -214,7 +212,7 @@ export default function RegisterForm() {
                   <FormMessage />
                 </FormItem>
               )} />
-              <FormField control={form.control} name="user.country" render={({ field }) => (
+              <FormField control={form.control} name="country" render={({ field }) => (
                 <FormItem className="w-fit">
                   <FormLabel>Country</FormLabel>
                   <FormControl>

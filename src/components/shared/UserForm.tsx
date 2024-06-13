@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { Form } from "../ui/form";
-import { userSchema, UserSchema } from "@/lib/schemas/database.schema";
+import { userSchema, UserSchema } from "@/lib/schemas/zod.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Button } from "../ui/button";
